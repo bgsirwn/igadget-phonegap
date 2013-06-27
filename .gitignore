@@ -1,0 +1,5 @@
+.metadata/
+iGadget-Ti/build
+.DS_Store
+xcuserdata/
+*.swp
