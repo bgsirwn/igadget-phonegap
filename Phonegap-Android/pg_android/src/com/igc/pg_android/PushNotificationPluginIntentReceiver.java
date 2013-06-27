@@ -8,7 +8,6 @@ import android.os.RemoteException;
 import com.urbanairship.Logger;
 import com.urbanairship.UAirship;
 import com.urbanairship.location.UALocationManager;
-import com.igc.pg_android.*;
 import com.urbanairship.push.PushManager;
 import com.urbanairship.util.ServiceNotBoundException;
 

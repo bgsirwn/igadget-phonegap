@@ -31,12 +31,6 @@ import com.urbanairship.AirshipConfigOptions;
 import com.urbanairship.UAirship;
 import com.urbanairship.push.PushManager;
 
-import com.urbanairship.AirshipConfigOptions;
-import com.urbanairship.Logger;
-import com.urbanairship.UAirship;
-import com.urbanairship.push.CustomPushNotificationBuilder;
-import com.urbanairship.push.PushManager;
-
 
 public class pg_android extends DroidGap
 {
