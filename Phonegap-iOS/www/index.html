@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+    <!--
+     #
+     # Licensed to the Apache Software Foundation (ASF) under one
+     # or more contributor license agreements.  See the NOTICE file
+     # distributed with this work for additional information
+     # regarding copyright ownership.  The ASF licenses this file
+     # to you under the Apache License, Version 2.0 (the
+     # "License"); you may not use this file except in compliance
+     # with the License.  You may obtain a copy of the License at
+     #
+     # http://www.apache.org/licenses/LICENSE-2.0
+     #
+     # Unless required by applicable law or agreed to in writing,
+     # software distributed under the License is distributed on an
+     # "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     #  KIND, either express or implied.  See the License for the
+     # specific language governing permissions and limitations
+     # under the License.
+     #
+     -->
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name = "format-detection" content = "telephone=no"/>
+        <meta name="viewport" content="user-scalable=no, initial-scale=1,
+        maximum-scale=1, minimum-scale=1, width=device-width;" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <title>Scandit SDK</title>
+    </head>
+    <body onload="onBodyLoad()" style="background:
+        url(img/ScanditSDKDemo-Splash.png) no-repeat;background-size:
+        100%;background-color: #000000">
+        <script type="text/javascript" src="cordova-2.7.0.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript">
+            app.initialize();
+        </script>
+        <script type="text/javascript" src="js/PushNotification.js"></script>
+        <script type="text/javascript">
+            function onBodyLoad()
+            {
+                document.addEventListener("deviceready", onDeviceReady, false);
+                alert("device is ready")
+                InitUrbanAirship();
+            }
+            
+            function InitUrbanAirship() {
+                
+                alert("init UA")
+                
+                push = window.pushNotification
+                
+                alert("push done")
+                
+                // Reset Badge on resume
+                document.addEventListener("resume", function() {
+                                          push.resetBadge()
+                                          })
+                
+                push.getIncoming(function (incoming) {
+                                 if(incoming.message) {
+                                 console.log("Incoming push: " + incoming.message)
+                                 } else {
+                                 console.log("No incoming message")
+                                 }
+                                 })
+                
+                function on_push(data) {
+                    console.log("Received push: " + data.message)
+                }
+                
+                function on_reg(error, pushID) {
+                    if (!error) {
+                        console.log("Reg Success: " + pushID)
+                        $('#id').text(pushID)
+                    }
+                }
+                
+                push.registerEvent('registration', on_reg)
+                
+                push.registerEvent('push', on_push)
+                
+                alert("on_push done")
+                
+                push.enablePush()
+                
+                alert("enablePush done")
+                
+            }
+            
+            function success(concatResult) {
+                
+                navigator.notification.alert(concatResult);
+                resultArray = concatResult.split("|");
+                navigator.notification.alert(resultArray[0]);
+                navigator.notification.alert(resultArray[1]);
+                alert("Scanned " + resultArray[0] + " code: " + resultArray[1]);
+            }
+            
+            function failure(error) {
+                alert("Failed: " + error);
+            }
+            
+            function scan() {
+                // See ScanditSDK.h for more available options.
+                cordova.exec(success, failure, "ScanditSDK", "scan",
+                             ["McicjMNJEeKU5+0YSj0U2c769M7xrZaOVx+htZY7Ovk",
+                              {"beep": true,
+                              "1DScanning" : true,
+                              "2DScanning" : true,
+                              "scanningHotspot" : "0.5/0.5",
+                              "vibrate" : true,
+                              "textForInitialScanScreenState" :
+                              "Align code with box",
+                              "textForBarcodePresenceDetected" :
+                              "Align code and hold still",
+                              "textForBarcodeDecodingInProgress" : "Decoding",
+                              "searchBarActionButtonCaption" : "Go",
+                              "searchBarCancelButtonCaption" : "Cancel",
+                              "searchBarPlaceholderText" :
+                              "Scan barcode or enter it here",
+                              "toolBarButtonCaption" : "Cancel",
+                              "minSearchBarBarcodeLength" : 8,
+                              "maxSearchBarBarcodeLength" : 15}]);
+                
+            }
+            
+            app.initialize();
+            </script>
+        
+        <div align="center" valign="center">
+            <input type="button" value="scan" onclick="scan()" style="margin-top:
+            230px; width: 100px; height: 30px; font-size: 1em"/>
+        </div>
+    </body>
+</html>
